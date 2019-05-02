@@ -1,0 +1,20 @@
+{
+    "name": "root/php",
+    "description": "Calcular Frete",
+    "authors": [
+        {
+            "name": "Frete Rapido",
+            "email": "developer@freterapido.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Freterapido\\": "../../proto/php/Freterapido",
+            "GPBMetadata\\": "../../proto/php/GPBMetadata/"
+        }
+    },
+    "require": {
+        "grpc/grpc": "^v1.1.0",
+        "google/protobuf": "^v3.3.0"
+    }
+}

@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+package freterapido;
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+
+service FreteRapido {
+	rpc CalcularFrete(CalcularFreteRequest) returns(CalcularFreteResponse);
+}
+
+// --- Request ---
+
+message CalcularFreteRequest {
+    enum TipoCobranca{
+        TIPOCOBRANCA_UNKNOWN = 0;
+        TIPOCOBRANCA_CIF = 1;
+        TIPOCOBRANCA_FOB = 2;
+    }
+    enum Filtro{
+        FILTRO_SEM_FILTRO = 0;
+        FILTRO_MENOR_PRECO = 1;
+        FILTRO_MENOR_PRAZO = 2;
+    }
+
+	TipoCobranca tipo_cobranca = 1;
+	Filtro filtro = 2;
+	google.protobuf.Int64Value limite = 3;
+    string token = 4;
+	string codigo_plataforma = 5;
+    bool retornar_consolidacao = 6;
+    RemetenteRequest remetente = 7;
+	ExpedidorRequest expedidor = 8;
+	DestinatarioRequest destinatario = 9;
+	repeated VolumeRequest volumes = 10;
+}
+
+message Endereco{
+    string cep = 1;
+}
+
+message RemetenteRequest {
+	string cnpj = 1;
+}
+
+message ExpedidorRequest {
+	Endereco endereco = 1;
+}
+
+message DestinatarioRequest {
+    enum TipoPessoa {
+        TIPOPESSOA_UNKNOWN = 0;
+        TIPOPESSOA_FISICA = 1;
+        TIPOPESSOA_JURIDICA = 2;
+    }
+
+	TipoPessoa tipo_pessoa = 1;
+	string cnpj_cpf = 2;
+	string inscricao_estadual = 3;
+	Endereco endereco = 4;
+}
+
+message VolumeRequest {
+    int32 tipo = 1;
+    google.protobuf.StringValue sku = 2;
+    google.protobuf.StringValue descricao = 3;
+    int32 quantidade = 4;
+    double altura = 5;
+    double largura = 6;
+    double comprimento = 7;
+    double peso = 8;
+    double valor = 9;
+    int32 volumes_produto = 10;
+    bool consolidar = 11;
+    bool sobreposto = 12;
+    bool tombar = 13;
+}
+
+// --- Response ---
+
+message CalcularFreteResponse {
+    string token_oferta = 1;
+    repeated TransportadoraResponse transportadoras = 2;
+    repeated VolumeResponse volumes = 3;
+}
+
+message TransportadoraResponse {
+    int64 oferta = 1;
+    string cnpj = 2;
+    string logotipo = 3;
+    string nome = 4;
+    string servico = 5;
+    google.protobuf.StringValue descricao_servico = 6;
+    int32 prazo_entrega = 7;
+    google.protobuf.Timestamp validade = 8;
+    double custo_frete = 9;
+    double preco_frete = 10;
+}
+
+
+message VolumeResponse {
+    int32 tipo = 1;
+    google.protobuf.StringValue sku = 2;
+    google.protobuf.StringValue descricao = 3;
+    int32 quantidade = 4;
+    double altura = 5;
+    double largura = 6;
+    double comprimento = 7;
+    double peso = 8;
+    double valor = 9;
+    int32 volumes_produto = 10;
+    repeated VolumeResponse items = 11;
+}
