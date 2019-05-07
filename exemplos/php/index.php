@@ -3,10 +3,10 @@
 require __DIR__ . '/vendor/autoload.php';
 
 //--- Configuracoes de acesso ---
-$cnpj = '';
-$token = '';
-// $cep_expedidor = '';
-$cep_destinatario = '';
+$cnpj              = '';
+$token             = '';
+// $cep_expedidor     = '';
+$cep_destinatario  = '';
 $codigo_plataforma = '';
 //-------------------------------
 
@@ -64,7 +64,7 @@ try {
     $request->setDestinatario($destinatario);
     $request->setVolumes($volumes);
 
-    $client = new \Freterapido\FreteRapidoClient('172.17.0.1:50052', [
+    $client = new \Freterapido\FreteRapidoClient('grpc.freterapido.com:50050', [
         'credentials' => \Grpc\ChannelCredentials::createInsecure(),
     ]);    
     
